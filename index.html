@@ -89,7 +89,7 @@
                         .then((response) => response.json())
                         .then((json) => {
                             console.log(json);
-                            L.marker(json["features"]["geometry"]["coordinates"]).addTo(map);
+                            L.marker(json["features"][0]["geometry"]["coordinates"]).addTo(map);
                     });
                 }
 
