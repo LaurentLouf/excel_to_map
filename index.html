@@ -37,13 +37,22 @@
 
     <script>
         const inputFile = document.getElementById("excelFile");
-      
+        const userPosition = [0, 0];
+
+	function onLocationFound(e) {
+            // User position
+            console.log("User position " + e.latlng);
+            userPosition[0] = e.latitude;
+	    userPosition[1] = e.longitude;
+	}
+	    
         map = L.map('map').setView([50.75, 2.25], 13);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        
+        map.locate({ setView: true, maxZoom: 16 });
+	map.on('locationfound', onLocationFound);
 
         inputFile.addEventListener("change", function ()
         {
@@ -56,7 +65,7 @@
                 var resultEmptyLinesFiltered = result.split("\n").filter(x => !x.startsWith(";;;"));
                 var resultLineMerged = [""];
                 var numberLineConsolidated = 0;
-				var mergeNextLine = 1;
+		var mergeNextLine = 1;
                 for (var iLine = 0; iLine < resultEmptyLinesFiltered.length; iLine++)
                 {
 		    if(mergeNextLine == 1)
