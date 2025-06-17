@@ -51,7 +51,23 @@
             var reader = new FileReader();
             reader.readAsText(inputFile.files[0], "UTF-8");
             reader.onload = function (evt) {
-                console.log(evt.target.result);
+                var result = evt.target.result;
+                console.log(result);
+                var resultEmptyLinesFiltered = result.split("\n").filter(x => !x.startsWith(";;;"));
+                var resultLineMerged = [""];
+                var numberLineConsolidated = 0;
+                for (var iLine = 0; iLine < resultEmptyLinesFiltered.length; iLine++)
+                {
+                    if(resultEmptyLinesFiltered[iLine].endsWith(";\r"))
+                    {
+                        numberLineConsolidated++;
+                        resultLineMerged.push(resultEmptyLinesFiltered[iLine]);
+                    }
+                    else
+                    {
+                        resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];
+                    }
+                }
                 fetch('https://api-adresse.data.gouv.fr/search/?q=')
                     .then((response) => response.json())
                     .then((json) => {
