@@ -59,12 +59,11 @@
 				var mergeNextLine = 1;
                 for (var iLine = 0; iLine < resultEmptyLinesFiltered.length; iLine++)
                 {
-					if(mergeNextLine == 1)
+		    if(mergeNextLine == 1)
                     {
-						resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];
-			
+			resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];	
                     }
-					else 
+		    else 
                     {
                         numberLineConsolidated++;
                         resultLineMerged.push(resultEmptyLinesFiltered[iLine]);
@@ -81,12 +80,12 @@
                 resultLineMerged = resultLineMerged.filter(x=>x.length).map(x => x.trim());
                 var headers = resultLineMerged.shift().split(";").filter(x => x.length);
                 var positionAdresseHeaders = headers.findIndex(x => x.toLowerCase() == "adresse");
-				console.log(resultLineMerged);
+		console.log(resultLineMerged);
 
                 for(var iLine = 0; iLine < resultLineMerged.length; iLine++)
                 {
                     var data = resultLineMerged[iLine].split(";").filter(x => x.length);
-                    fetch('https://api-adresse.data.gouv.fr/search/?q=')
+                    fetch('https://api-adresse.data.gouv.fr/search/?q=' + data[positionAdresseHeaders])
                         .then((response) => response.json())
                         .then((json) => {
                             console.log(json);
