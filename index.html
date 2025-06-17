@@ -78,14 +78,14 @@
                         mergeNextLine = 1;
                     }
                 }			
-                resultLineMerged = resultLineMerged.filter(x=>x.length);
-                var headers = resultLineMerged.shift().split(";");
+                resultLineMerged = resultLineMerged.filter(x=>x.length).map(x => x.trim());
+                var headers = resultLineMerged.shift().split(";").filter(x => x.length);
                 var positionAdresseHeaders = headers.findIndex(x => x.toLowerCase() == "adresse");
 				console.log(resultLineMerged);
 
                 for(var iLine = 0; iLine < resultLineMerged.length; iLine++)
                 {
-                    var data = resultLineMerged[iLine].split(";");
+                    var data = resultLineMerged[iLine].split(";").filter(x => x.length);
                     fetch('https://api-adresse.data.gouv.fr/search/?q=')
                         .then((response) => response.json())
                         .then((json) => {
