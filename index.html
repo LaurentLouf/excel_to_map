@@ -56,24 +56,44 @@
                 var resultEmptyLinesFiltered = result.split("\n").filter(x => !x.startsWith(";;;"));
                 var resultLineMerged = [""];
                 var numberLineConsolidated = 0;
+				var mergeNextLine = 1;
                 for (var iLine = 0; iLine < resultEmptyLinesFiltered.length; iLine++)
                 {
-                    if(resultEmptyLinesFiltered[iLine].endsWith(";\r"))
+					if(mergeNextLine == 1)
+                    {
+						resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];
+			
+                    }
+					else 
                     {
                         numberLineConsolidated++;
                         resultLineMerged.push(resultEmptyLinesFiltered[iLine]);
                     }
+                    if(resultEmptyLinesFiltered[iLine].endsWith(";;\r") == 1)
+                    {
+                        mergeNextLine = 0;
+                    }
                     else
                     {
-                        resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];
+                        mergeNextLine = 1;
                     }
+                }			
+                resultLineMerged = resultLineMerged.filter(x=>x.length);
+                var headers = resultLineMerged.shift().split(";");
+                var positionAdresseHeaders = headers.findIndex(x => x.toLowerCase() == "adresse");
+				console.log(resultLineMerged);
+
+                for(var iLine = 0; iLine < resultLineMerged.length; iLine++)
+                {
+                    var data = resultLineMerged[iLine].split(";");
+                    fetch('https://api-adresse.data.gouv.fr/search/?q=')
+                        .then((response) => response.json())
+                        .then((json) => {
+                            console.log(json);
+                            L.marker(json["features"]["geometry"]["coordinates"]).addTo(map);
+                    });
                 }
-                fetch('https://api-adresse.data.gouv.fr/search/?q=')
-                    .then((response) => response.json())
-                    .then((json) => {
-                        console.log(json);
-                        L.marker(json["features"]["geometry"]["coordinates"]).addTo(map);
-                });
+
             }
             reader.onerror = function (evt) {
                 console.log("error reading file");
