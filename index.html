@@ -51,8 +51,8 @@
             maxZoom: 19,
             attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        map.locate({ setView: true, maxZoom: 16 });
 	    map.on('locationfound', onLocationFound);
+        map.locate({ setView: true, maxZoom: 16 });
 
         inputFile.addEventListener("change", function ()
         {
