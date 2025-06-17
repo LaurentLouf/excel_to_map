@@ -43,12 +43,20 @@
             maxZoom: 19,
             attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        map.on('locationfound', onLocationFound);
+        
 
         inputFile.addEventListener("change", function ()
-         {
-           console.log(inputFile);  
-         });
+        {
+            console.log(inputFile);
+            var reader = new FileReader();
+            reader.readAsText(inputFile.files[0], "UTF-8");
+            reader.onload = function (evt) {
+                document.getElementById("fileContents").innerHTML = evt.target.result;
+            }
+            reader.onerror = function (evt) {
+                document.getElementById("fileContents").innerHTML = "error reading file";
+            }
+        });
         
         fetch('https://api-adresse.data.gouv.fr/search/?q=' + adresse)
             .then((response) => response.json())
