@@ -51,21 +51,20 @@
             var reader = new FileReader();
             reader.readAsText(inputFile.files[0], "UTF-8");
             reader.onload = function (evt) {
-                document.getElementById("fileContents").innerHTML = evt.target.result;
+                console.log(evt.target.result);
+                fetch('https://api-adresse.data.gouv.fr/search/?q=')
+                    .then((response) => response.json())
+                    .then((json) => {
+                        console.log(json);
+                        L.marker(json["features"]["geometry"]["coordinates"]).addTo(map);
+                });
             }
             reader.onerror = function (evt) {
-                document.getElementById("fileContents").innerHTML = "error reading file";
+                console.log("error reading file");
+                console.log(evt);
             }
         });
         
-        fetch('https://api-adresse.data.gouv.fr/search/?q=' + adresse)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                L.marker(json["features"]["geometry"]["coordinates"]).addTo(map);
-            });
-
-
     </script>
 </body>
 
