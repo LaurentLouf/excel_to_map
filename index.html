@@ -94,7 +94,7 @@
                 for(var iLine = 0; iLine < resultLineMerged.length; iLine++)
                 {
                     var data = resultLineMerged[iLine].split(";").filter(x => x.length);
-                    fetch('https://api-adresse.data.gouv.fr/search/?q=' + data[positionAdresseHeaders])
+                    fetch('https://api-adresse.data.gouv.fr/search/?q=' + data[positionAdresseHeaders] + "&lat=" + userPosition[0] + "&lon=" + userPosition[1])
                         .then((response) => response.json())
                         .then((json) => {
                             console.log(json);
