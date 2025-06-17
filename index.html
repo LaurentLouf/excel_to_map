@@ -52,6 +52,7 @@
             attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 	    map.on('locationfound', onLocationFound);
+        map.on('locationerror', e => window.alert(e.message));
         map.locate({ setView: true, maxZoom: 16 });
 
         inputFile.addEventListener("change", function ()
