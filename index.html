@@ -39,12 +39,12 @@
         const inputFile = document.getElementById("excelFile");
         const userPosition = [0, 0];
 
-	function onLocationFound(e) {
+	    function onLocationFound(e) {
             // User position
             console.log("User position " + e.latlng);
             userPosition[0] = e.latitude;
-	    userPosition[1] = e.longitude;
-	}
+	        userPosition[1] = e.longitude;
+	    }
 	    
         map = L.map('map').setView([50.75, 2.25], 13);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,7 +52,7 @@
             attribution: ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         map.locate({ setView: true, maxZoom: 16 });
-	map.on('locationfound', onLocationFound);
+	    map.on('locationfound', onLocationFound);
 
         inputFile.addEventListener("change", function ()
         {
@@ -65,14 +65,14 @@
                 var resultEmptyLinesFiltered = result.split("\n").filter(x => !x.startsWith(";;;"));
                 var resultLineMerged = [""];
                 var numberLineConsolidated = 0;
-		var mergeNextLine = 1;
+		        var mergeNextLine = 1;
                 for (var iLine = 0; iLine < resultEmptyLinesFiltered.length; iLine++)
                 {
-		    if(mergeNextLine == 1)
+		            if(mergeNextLine == 1)
                     {
-			resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];	
+			            resultLineMerged[numberLineConsolidated] = resultLineMerged[numberLineConsolidated] + resultEmptyLinesFiltered[iLine];	
                     }
-		    else 
+		            else 
                     {
                         numberLineConsolidated++;
                         resultLineMerged.push(resultEmptyLinesFiltered[iLine]);
@@ -89,7 +89,7 @@
                 resultLineMerged = resultLineMerged.filter(x=>x.length).map(x => x.trim());
                 var headers = resultLineMerged.shift().split(";").filter(x => x.length);
                 var positionAdresseHeaders = headers.findIndex(x => x.toLowerCase() == "adresse");
-		console.log(resultLineMerged);
+		        console.log(resultLineMerged);
 
                 for(var iLine = 0; iLine < resultLineMerged.length; iLine++)
                 {
@@ -98,7 +98,8 @@
                         .then((response) => response.json())
                         .then((json) => {
                             console.log(json);
-                            L.marker(json["features"][0]["geometry"]["coordinates"]).addTo(map);
+				            var coordinates = json["features"][0]["geometry"]["coordinates"];
+                            L.marker([coordinates[1], coordinates[0]]).addTo(map);
                     });
                 }
 
