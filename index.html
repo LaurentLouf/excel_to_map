@@ -36,7 +36,7 @@
     <div id="map"></div>
 
     <script>
-        const inputFile = document.querySelector("excelFile");
+        const inputFile = document.getElementById("excelFile");
       
         map = L.map('map').setView([50.75, 2.25], 13);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
